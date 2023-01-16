@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../api/pdf_api.dart';
 import '../api/pdf_invoice_api.dart';
 import '../main.dart';
+import '../model/invoice_model.dart';
 import '../widget/button_widget.dart';
 import '../widget/title_widget.dart';
 
@@ -38,7 +39,17 @@ class _PdfPageState extends State<PdfPage> {
                 ButtonWidget(
                   text: 'Invoice PDF',
                   onClicked: () async {
-                    final pdfFile = await PdfInvoiceApi.generate();
+                    final invoice = InvoiceDataModel(
+                      imageUrl: 'assets/images/one.png',
+                      title: 'OneCash One Microfinance ',
+                      transactionCode: "ASWE12685WHjii90",
+                      recipientName: "Ashenafi Mohammed",
+                      recipientAccount: "1000124578963",
+                      comment: "have my money",
+                      transactionStatus: "Processed",
+                      amount: "50,000",
+                    );
+                    final pdfFile = await PdfInvoiceApi.generate(invoice);
                     // Share.shareFiles([pdfFile.path]);
                     PdfApi.openFile(pdfFile);
                   },

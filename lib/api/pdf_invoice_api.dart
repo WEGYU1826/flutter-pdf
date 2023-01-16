@@ -6,20 +6,22 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:receipt/api/pdf_api.dart';
 
+import '../model/invoice_model.dart';
 import '../utils.dart';
 
 class PdfInvoiceApi {
-  static Future<File> generate() async {
+  static Future<File> generate(InvoiceDataModel invoiceDataModel) async {
     final pdf = Document();
 
-    Uint8List logoImage =
-        (await rootBundle.load('assets/images/one.png')).buffer.asUint8List();
+    Uint8List logoImage = (await rootBundle.load(invoiceDataModel.imageUrl!))
+        .buffer
+        .asUint8List();
 
     pdf.addPage(MultiPage(
       build: (context) => [
-        buildTitle(logoImage),
+        buildTitle(logoImage, invoiceDataModel),
         SizedBox(height: 1 * PdfPageFormat.cm),
-        buildHeader(),
+        buildHeader(invoiceDataModel),
         SizedBox(height: 1 * PdfPageFormat.cm),
         Divider(),
         SizedBox(height: 1 * PdfPageFormat.cm),
@@ -32,7 +34,7 @@ class PdfInvoiceApi {
           ),
         ),
         SizedBox(height: 1 * PdfPageFormat.cm),
-        mainContent(),
+        mainContent(invoiceDataModel),
       ],
       footer: (context) => buildFooter(),
     ));
@@ -41,7 +43,8 @@ class PdfInvoiceApi {
   }
 
 // Done
-  static buildTitle(Uint8List logoImage) => Center(
+  static buildTitle(Uint8List logoImage, InvoiceDataModel invoiceDataModel) =>
+      Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -54,7 +57,7 @@ class PdfInvoiceApi {
               ),
             ),
             Text(
-              'OneCash One Microfinance ',
+              invoiceDataModel.title!,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -66,7 +69,7 @@ class PdfInvoiceApi {
         ),
       );
 // Done
-  static Widget buildHeader() => Column(
+  static Widget buildHeader(InvoiceDataModel invoiceDataModel) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -86,7 +89,7 @@ class PdfInvoiceApi {
                         ),
                       ),
                     ),
-                    Text("ASWE12685WHjii90"),
+                    Text(invoiceDataModel.transactionCode!),
                   ],
                 ),
               ),
@@ -112,17 +115,19 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget mainContent() => Column(
+  static Widget mainContent(InvoiceDataModel invoiceDataModel) => Column(
         children: [
-          buildMainContent("Recipient Name: ", "Ashenafi Mohammed"),
+          buildMainContent("Recipient Name: ", invoiceDataModel.recipientName!),
           SizedBox(height: 2.5 * PdfPageFormat.mm),
-          buildMainContent("Recipient Account: ", "1000124578963"),
+          buildMainContent(
+              "Recipient Account: ", invoiceDataModel.recipientAccount!),
           SizedBox(height: 2.5 * PdfPageFormat.mm),
-          buildMainContent("Comment: ", "have my money"),
+          buildMainContent("Comment: ", invoiceDataModel.comment!),
           SizedBox(height: 2.5 * PdfPageFormat.mm),
-          buildMainContent("Transaction Status: ", "Processed".toUpperCase()),
+          buildMainContent(
+              "Transaction Status: ", invoiceDataModel.transactionStatus!),
           SizedBox(height: 2.5 * PdfPageFormat.mm),
-          buildMainContent("Amount: ", "50,000 birr"),
+          buildMainContent("Amount: ", "${invoiceDataModel.amount!} birr"),
           SizedBox(height: 2.5 * PdfPageFormat.mm),
         ],
       );
