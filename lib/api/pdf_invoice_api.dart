@@ -53,7 +53,8 @@ class PdfInvoiceApi {
               padding: const pw.EdgeInsets.only(bottom: 8, left: 30),
               height: 72,
               child: pw.Image(
-                pw.RawImage(bytes: logoImage, height: 50, width: 50),
+                pw.MemoryImage(logoImage),
+                fit: BoxFit.contain,
               ),
             ),
             Text(
