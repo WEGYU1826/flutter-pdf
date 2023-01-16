@@ -39,8 +39,8 @@ class _PdfPageState extends State<PdfPage> {
                   text: 'Invoice PDF',
                   onClicked: () async {
                     final pdfFile = await PdfInvoiceApi.generate();
-                    Share.shareFiles([pdfFile.path]);
-                    // PdfApi.openFile(pdfFile);
+                    // Share.shareFiles([pdfFile.path]);
+                    PdfApi.openFile(pdfFile);
                   },
                 ),
               ],
