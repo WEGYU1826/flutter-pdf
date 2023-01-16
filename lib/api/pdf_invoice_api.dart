@@ -62,7 +62,7 @@ class PdfInvoiceApi {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: const PdfColor.fromInt(0xff694b9e),
+                color: PdfColor.fromInt(invoiceDataModel.color!),
               ),
             ),
             SizedBox(height: 0.2 * PdfPageFormat.cm),

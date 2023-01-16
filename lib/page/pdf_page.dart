@@ -48,6 +48,7 @@ class _PdfPageState extends State<PdfPage> {
                       comment: "have my money",
                       transactionStatus: "Processed",
                       amount: "50,000",
+                      color: 0xff694b9e,
                     );
                     final pdfFile = await PdfInvoiceApi.generate(invoice);
                     // Share.shareFiles([pdfFile.path]);

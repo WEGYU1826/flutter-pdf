@@ -7,6 +7,7 @@ class InvoiceDataModel {
   String? transactionStatus;
   String? comment;
   String? amount;
+  int? color;
 
   InvoiceDataModel({
     this.imageUrl,
@@ -17,5 +18,6 @@ class InvoiceDataModel {
     this.transactionStatus,
     this.comment,
     this.amount,
+    this.color,
   });
 }
